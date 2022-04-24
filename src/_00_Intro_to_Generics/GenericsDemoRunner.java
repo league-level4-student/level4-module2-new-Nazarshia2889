@@ -22,6 +22,6 @@ public class GenericsDemoRunner {
         GenericsDemo<Double> g3 = new GenericsDemo<Double>();
         g3.setThing(456.789);
         System.out.println(g3.getThing());
-
+        
     }
 }
