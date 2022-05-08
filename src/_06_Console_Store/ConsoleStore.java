@@ -2,6 +2,12 @@ package _06_Console_Store;
 
 import java.util.Scanner;
 
+import _02_Generics_Store.Candy;
+import _02_Generics_Store.Cart;
+import _02_Generics_Store.Cereal;
+import _02_Generics_Store.Clothing;
+import _02_Generics_Store.Toy;
+
 public class ConsoleStore {
 
     /*
@@ -41,11 +47,57 @@ public class ConsoleStore {
     public static void main(String[] args) {
     	String keepShopping;
     	Scanner scanner = new Scanner(System.in);
+    	Cart<Object> cart = new Cart<Object>();
     	
-    	do { 
-    		
+    	System.out.println("Enter the amount of money you have: ");
+    	int money = scanner.nextInt();
+    	int price = 0;
+    	
+    	do {
+    		System.out.println("You can add ('add') an item ('candy', 'cereal', 'toy', 'clothes'), remove ('remove') an item, or view ('view') items. What would you like to do?: ");
+    		String option = scanner.nextLine();
+    		if(option.equalsIgnoreCase("add")) {
+    			System.out.println("What would you like to add?");
+    			String item = scanner.nextLine();
+    			if(item.equalsIgnoreCase("candy")) {
+    				cart.add(new Candy());
+    				price += 1;
+    			}
+    			else if(item.equalsIgnoreCase("cereal")) {
+    				cart.add(new Cereal());
+    				price += 5;
+    			}
+    			else if(item.equalsIgnoreCase("toy")) {
+    				cart.add(new Toy());
+    				price += 10;
+    			}
+    			else { 
+    				cart.add(new Clothing());
+    				price += 15;
+    			}
+    		}
+    		else if(option.equalsIgnoreCase("remove")) {
+    			System.out.println("What index item do you want to remove? (Indexed at 0)");
+    			int index = scanner.nextInt();
+    			cart.remove(index);
+    		}
+    		else if(option.equalsIgnoreCase("view")) {
+    			cart.showCart();
+    		}
+    		System.out.println("Would you like to keep shopping? (y/n)");
     		keepShopping = scanner.nextLine();
+    		if(price > money) {
+    			System.out.println("You have spent too much. Remove an item and come back.");
+    			keepShopping = "";
+    		}
     	} while(keepShopping.equals("y"));
+    	
+    	money -= price;
+    	cart.showCart();
+    	System.out.println("Money left: " + money);
+    	
+    	
+    	scanner.close();
     }
 
 }

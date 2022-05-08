@@ -32,6 +32,16 @@ public class Cart<T> {
         JOptionPane.showMessageDialog(null,
                 "Your cart is full!\nNo more than 5 items");
     }
+    
+//    Remove item
+    public void remove(int index) {
+    	for(int i = 0; i < cart.length; i++) {
+    		if(i == index) {
+    			cart[i] = null;
+    			return;
+    		}
+    	}
+    }
 
     // Displays everything currently in the cart
     public void showCart() {
