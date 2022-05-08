@@ -1,5 +1,7 @@
 package _06_Console_Store;
 
+import java.util.Scanner;
+
 public class ConsoleStore {
 
     /*
@@ -37,7 +39,13 @@ public class ConsoleStore {
      */
 
     public static void main(String[] args) {
-
+    	String keepShopping;
+    	Scanner scanner = new Scanner(System.in);
+    	
+    	do { 
+    		
+    		keepShopping = scanner.nextLine();
+    	} while(keepShopping.equals("y"));
     }
 
 }
