@@ -1,5 +1,7 @@
 package _06_Console_Store;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import _02_Generics_Store.Candy;
@@ -48,53 +50,80 @@ public class ConsoleStore {
     	String keepShopping;
     	Scanner scanner = new Scanner(System.in);
     	Cart<Object> cart = new Cart<Object>();
+    	ArrayList<String> receiptNames = new ArrayList<String>();
+    	ArrayList<Integer> receiptValues = new ArrayList<Integer>();
+    	
+    	boolean cont = true;
     	
     	System.out.println("Enter the amount of money you have: ");
-    	int money = scanner.nextInt();
+    	int money = Integer.parseInt(scanner.nextLine());
     	int price = 0;
     	
     	do {
-    		System.out.println("You can add ('add') an item ('candy', 'cereal', 'toy', 'clothes'), remove ('remove') an item, or view ('view') items. What would you like to do?: ");
-    		String option = scanner.nextLine();
-    		if(option.equalsIgnoreCase("add")) {
-    			System.out.println("What would you like to add?");
-    			String item = scanner.nextLine();
-    			if(item.equalsIgnoreCase("candy")) {
-    				cart.add(new Candy());
-    				price += 1;
-    			}
-    			else if(item.equalsIgnoreCase("cereal")) {
-    				cart.add(new Cereal());
-    				price += 5;
-    			}
-    			else if(item.equalsIgnoreCase("toy")) {
-    				cart.add(new Toy());
-    				price += 10;
-    			}
-    			else { 
-    				cart.add(new Clothing());
-    				price += 15;
-    			}
-    		}
-    		else if(option.equalsIgnoreCase("remove")) {
-    			System.out.println("What index item do you want to remove? (Indexed at 0)");
-    			int index = scanner.nextInt();
-    			cart.remove(index);
-    		}
-    		else if(option.equalsIgnoreCase("view")) {
-    			cart.showCart();
-    		}
-    		System.out.println("Would you like to keep shopping? (y/n)");
+    		System.out.println("Would you like to continue shopping? (y/n)");
     		keepShopping = scanner.nextLine();
-    		if(price > money) {
-    			System.out.println("You have spent too much. Remove an item and come back.");
-    			keepShopping = "";
+    		if(keepShopping .equals("y")) {
+	    		System.out.println("You can add ('add') an item ('candy', 'cereal', 'toy', 'clothes'), remove ('remove') an item, or view ('view') items. What would you like to do?: ");
+	    		String option = scanner.nextLine();
+	    		if(option.equalsIgnoreCase("add")) {
+	    			System.out.println("What would you like to add?");
+	    			String item = scanner.nextLine();
+	    			if(item.equalsIgnoreCase("candy")) {
+	    				cart.add(new Candy());
+	    				price += 1;
+	    				receiptNames.add("candy");
+	    				receiptValues.add(1);
+	    			}
+	    			else if(item.equalsIgnoreCase("cereal")) {
+	    				cart.add(new Cereal());
+	    				price += 5;
+	    				receiptNames.add("cereal");
+	    				receiptValues.add(5);
+	    			}
+	    			else if(item.equalsIgnoreCase("toy")) {
+	    				System.out.println("yo");
+	    				cart.add(new Toy());
+	    				price += 10;
+	    				receiptNames.add("toy");
+	    				receiptValues.add(10);
+	    			}
+	    			else { 
+	    				cart.add(new Clothing());
+	    				price += 15;
+	    				receiptNames.add("clothing");
+	    				receiptValues.add(15);
+	    			}
+	    		}
+	    		else if(option.equalsIgnoreCase("remove")) {
+	    			System.out.println("What index is the item you want to remove? (Indexed at 0)");
+	    			int index = Integer.parseInt(scanner.nextLine());
+	    			cart.remove(index);
+	    			price -= receiptValues.get(index);
+	    			receiptNames.remove(index);
+	    			receiptValues.remove(index);
+
+	    		}
+	    		else if(option.equalsIgnoreCase("view")) {
+	    			cart.showCart();
+	    		}
     		}
-    	} while(keepShopping.equals("y"));
-    	
-    	money -= price;
-    	cart.showCart();
-    	System.out.println("Money left: " + money);
+    		else {
+    			cont = false;
+	    		if(price > money) {
+	    			System.out.println("You have spent too much. Make sure to remove an item.");
+	    			cont = true;
+	    		}
+	    		else {
+	    			money -= price;
+	    	    	cart.showCart();
+	    	    	System.out.println("Money left: " + money);
+	    	    	for (int i = 0; i < receiptNames.size(); i++) {
+	    	    	    System.out.println("Item: " + receiptNames.get(i) + ", Price: " + receiptValues.get(i));
+	    	    	}
+	    	    	System.out.println("Total: " + price);
+	    		}
+    		}
+    	} while(cont == true);
     	
     	
     	scanner.close();
